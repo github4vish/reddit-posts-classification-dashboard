@@ -1,338 +1,201 @@
-# 📘 Assignment: Reddit Post Classification Dashboard
-
-## 🎯 Objective
-
-Design and develop a **Frontend Dashboard** for a Machine Learning project titled:
-
-> **“Reddit Post Classification Dashboard”**
-> Model: **TF-IDF + Multinomial Naive Bayes**
-
-The dashboard must connect to a Flask REST API backend and dynamically display model results and predictions.
 
 ---
 
-# 🧠 Background
-
-The backend model performs:
-
-* Text preprocessing using NLTK
-* TF-IDF feature extraction
-* Multinomial Naive Bayes classification
-* Train-Test split (80/20)
-* Evaluation using:
-
-  * Accuracy
-  * Confusion Matrix
-  * Classification Report
-* Live prediction of new Reddit posts
+# 📊 Reddit Post Classification Dashboard – Simple 6 Steps Guide
 
 ---
 
-# 🏗️ Technology Stack (Frontend)
+## ✅ Step 1: Understand File Structure (Diagram + Purpose)
 
-You must use:
+### 📁 Project Structure
 
-* HTML5
-* Bootstrap 5
-* DC.js
-* D3.js
-* Crossfilter2
-* External JavaScript file (`app.js`)
-* Fetch API for backend communication
-
-❌ Do NOT use Chart.js
-❌ Do NOT write backend code
-
----
-
-# 📊 Dashboard Layout Structure
-
-Your dashboard must follow the structure below:
-
-```
----------------------------------------------------------
-| Reddit Post Classification Dashboard                  |
----------------------------------------------------------
-| KPI Cards (4 Cards in One Row)                        |
----------------------------------------------------------
-| Live Prediction Section                               |
----------------------------------------------------------
-| Confusion Matrix | Class Distribution Chart           |
----------------------------------------------------------
-| Classification Report Table                           |
----------------------------------------------------------
-| Top Keywords Visualization                            |
----------------------------------------------------------
-| Footer (Model Details)                                |
----------------------------------------------------------
-```
-
----
-
-# 🧩 Section-wise Requirements
-
----
-
-## 🔹 1. Header Section
-
-Include:
-
-* Dashboard Title
-* Subtitle:
-
-  > Text Classification using TF-IDF + Multinomial Naive Bayes
-* Model badge (top right corner)
-
----
-
-## 🔹 2. KPI Cards Section
-
-Create 4 Bootstrap cards in a single row:
-
-| Card               | Data Source           |
-| ------------------ | --------------------- |
-| Accuracy           | `/api/model/overview` |
-| Total Test Samples | `/api/model/overview` |
-| Number of Classes  | `/api/model/overview` |
-| Model Name         | `/api/model/overview` |
-
-All values must be loaded dynamically from the API.
-
----
-
-## 🔹 3. Live Prediction Section
-
-Create:
-
-* Large Textarea (Title + Content combined)
-* Predict Button
-* Result Display Area
-
-When user clicks **Predict**:
-
-Call:
-
-```
-POST /api/predict
-```
-
-Display:
-
-* Predicted Category
-* Confidence Score
-* Probability per class
-
-Include:
-
-* Loading spinner
-* Error handling
-
----
-
-## 🔹 4. Confusion Matrix (DC.js Chart)
-
-Call:
-
-```
-GET /api/model/confusion-matrix
-```
-
-Requirements:
-
-* Heatmap-style visualization using DC.js
-* X-axis → Predicted
-* Y-axis → Actual
-* Display counts inside cells
-* Responsive design
-
----
-
-## 🔹 5. Class Distribution Chart
-
-Call:
-
-```
-GET /api/data/class-distribution
-```
-
-Requirements:
-
-* Bar chart using DC.js
-* Show:
-
-  * Class name
-  * Number of samples
-* Must be interactive
-
----
-
-## 🔹 6. Classification Report Table
-
-Call:
-
-```
-GET /api/model/classification-report
-```
-
-Display:
-
-| Class | Precision | Recall | F1-Score | Support |
-
-Also include:
-
-* Accuracy row
-* Macro average
-* Weighted average
-
-Table must be dynamically rendered using JavaScript.
-
----
-
-## 🔹 7. Top Keywords Visualization
-
-Call:
-
-```
-GET /api/model/top-keywords
-```
-
-Display:
-
-* Horizontal bar chart per class
-* Show top TF-IDF words
-* Use DC.js row chart
-
----
-
-## 🔹 8. Footer Section
-
-Display:
-
-* Model Name
-* Feature Extraction Method (TF-IDF)
-* NLP Preprocessing (Lowercase, Stopwords, Stemming)
-* Train/Test Split (80/20)
-* Year
-
----
-
-# 🔌 API Endpoints Available
-
-The backend provides the following endpoints:
-
-```
-GET  /api/model/overview
-GET  /api/model/confusion-matrix
-GET  /api/model/classification-report
-GET  /api/data/class-distribution
-GET  /api/model/top-keywords
-POST /api/predict
-```
-
-You must use `fetch()` to connect to these endpoints.
-
----
-
-# 📁 Required Folder Structure
-
-```
+```id="9e8c7p"
 reddit-dashboard/
 │
 ├── index.html
-├── app.js
 ├── css/
-│   └── styles.css (optional)
-└── assets/
+│   └── styles.css
+├── js/
+│   └── dashboard.js
+│
+├── models/
+│       model.pkl
+│
+├── training/
+│       train_model.py
+│       notebook.ipynb
+│
+└── app.py
 ```
 
-JavaScript must be written in `app.js`.
+### 📌 Purpose of Each File
 
-Do NOT write JS inside HTML except for script imports.
-
----
-
-# ⚙️ Functional Requirements
-
-Your dashboard must:
-
-* Be fully responsive
-* Use Bootstrap grid system
-* Load all data dynamically
-* Show loading indicators during API calls
-* Handle API errors properly
-* Keep code clean and modular
-* Use DOMContentLoaded event listener
+| File/Folder        | Purpose                              |
+| ------------------ | ------------------------------------ |
+| **index.html**     | Main dashboard UI                    |
+| **styles.css**     | Styling and layout                   |
+| **dashboard.js**   | Handles API calls and UI updates     |
+| **models/**        | Stores trained ML model              |
+| **train_model.py** | Converts notebook into trained model |
+| **notebook.ipynb** | Used for NLP model training          |
+| **app.py**         | Backend API server                   |
 
 ---
 
-# 📌 Additional Requirements
+## ✅ Step 2: Design Dashboard (index.html Structure)
 
-* Clean modern UI
-* Proper spacing
-* Card-based layout
-* Clearly labeled charts
-* Maintain consistent theme
+Use:
 
----
+* Bootstrap 5
+* DC.js
+* Crossfilter2
+* D3.js
 
-# 🧪 Evaluation Criteria
+### 📊 Dashboard Layout Diagram
 
-| Criteria                    | Marks |
-| --------------------------- | ----- |
-| Layout & Design             | 20    |
-| API Integration             | 20    |
-| DC.js Chart Implementation  | 20    |
-| Live Prediction Feature     | 15    |
-| Code Structure & Separation | 15    |
-| Responsiveness & UI Quality | 10    |
+```id="qv5m2n"
+---------------------------------------------------------
+📊 Reddit Post Classification Dashboard
+---------------------------------------------------------
+Header:
+- Title + Subtitle + Model Info
+---------------------------------------------------------
+KPI Cards Row:
+[ Accuracy ] [ Total Samples ] [ Classes ] [ Model Name ]
+---------------------------------------------------------
+Prediction Section:
+[ Text Input Area ]
+[ Predict Button ]
+[ Result Display ]
+---------------------------------------------------------
+Charts Row:
+[ Confusion Matrix ] [ Class Distribution ]
+---------------------------------------------------------
+Table Section:
+[ Classification Report Table ]
+---------------------------------------------------------
+Visualization Section:
+[ Top Keywords Chart ]
+---------------------------------------------------------
+Footer:
+[ Model Details ]
+---------------------------------------------------------
+```
 
-Total: **100 Marks**
+### 🎯 Goal
 
----
-
-# 📦 Submission Requirements
-
-Students must submit:
-
-1. Complete project folder
-2. Screenshots of:
-
-   * Dashboard
-   * Prediction working
-   * Charts working
-3. Short explanation document (2–3 pages) explaining:
-
-   * How DC.js works with Crossfilter
-   * How data flows from Flask API to frontend
-   * Challenges faced
-
----
-
-# 🚀 Bonus (Optional – Extra Credit)
-
-* Add filtering support in DC.js charts
-* Add reset filter button
-* Add misclassified samples table
-* Add confidence progress bar
-* Add dark mode toggle
+* Create responsive dashboard using Bootstrap
+* Allocate sections for charts (DC.js)
+* Maintain clean UI layout
 
 ---
 
-# 🏁 Expected Learning Outcomes
+## ✅ Step 3: Create Model Training Script
 
-After completing this assignment, students will understand:
+### 📌 Task
 
-* How to connect ML models with frontend dashboards
-* REST API integration
-* DC.js and Crossfilter usage
-* Dynamic UI rendering
-* NLP model visualization
+Create **train_model.py** using the `.ipynb` file.
 
----
+### 🎯 Purpose
 
-**Instructor Note:**
-Backend API will be provided separately. Students must only focus on frontend dashboard implementation.
+* Perform text preprocessing (NLP steps)
+* Apply TF-IDF feature extraction
+* Train classification model (Naive Bayes)
+* Evaluate performance
 
 ---
 
-# ✅ End of Assignment
+## ✅ Step 4: Generate and Save Model
+
+### 📌 Task
+
+Run the training script.
+
+### 🎯 Output
+
+* Save trained model into:
+
+```id="k3x8pw"
+/models/model.pkl
+```
+
+* This model will be used by backend APIs
+
+---
+
+## ✅ Step 5: Create Backend API (app.py)
+
+### 📌 API Design (Names, Routes, Purpose)
+
+| API Name              | Route                              | Purpose                    |
+| --------------------- | ---------------------------------- | -------------------------- |
+| Model Overview        | `/api/model/overview`              | Accuracy, samples, classes |
+| Confusion Matrix      | `/api/model/confusion-matrix`      | Matrix data                |
+| Classification Report | `/api/model/classification-report` | Performance metrics        |
+| Class Distribution    | `/api/data/class-distribution`     | Class counts               |
+| Top Keywords          | `/api/model/top-keywords`          | Important words per class  |
+| Prediction            | `/api/predict`                     | Predict category of text   |
+
+### 🎯 Goal
+
+* Connect frontend dashboard with NLP model
+* Return structured JSON responses
+
+---
+
+## ✅ Step 6: Create dashboard.js (Frontend Logic)
+
+### 📌 Responsibilities
+
+dashboard.js connects **index.html ↔ app.py**
+
+### 🔧 Tasks
+
+1. On Page Load
+
+   * Fetch model overview
+   * Load charts
+   * Load classification report
+
+2. Prediction Handling
+
+   * Take user input text
+   * Send request to prediction API
+   * Display predicted category and confidence
+
+3. Display Data
+
+   * Update KPI cards
+   * Render table data
+   * Show results
+
+4. Chart Rendering
+
+   * Confusion Matrix
+   * Class Distribution
+   * Top Keywords
+
+5. Handle
+
+   * Loading indicators
+   * Error messages
+   * Dynamic updates
+
+---
+
+## 🎯 Final Flow
+
+```id="v2zq1r"
+User → index.html (Dashboard UI)
+        ↓
+dashboard.js (Frontend Logic)
+        ↓
+app.py (Backend API)
+        ↓
+ML Model (Prediction)
+        ↓
+Response → Dashboard Visualization
+```
+
+---
+
